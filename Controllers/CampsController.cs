@@ -17,6 +17,7 @@ namespace CoreCodeCamp.Controllers
         private readonly ICampRepository _campRepository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
+
         public CampsController(ICampRepository campRepository, IMapper mapper, LinkGenerator linkGenerator)
         {
             _campRepository = campRepository;
@@ -73,6 +74,9 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
+                var campExiting = _campRepository.GetCampAsync(model.Moniker);
+                if (campExiting != null) return BadRequest("Moniker in use");
+
                 var location = _linkGenerator.GetPathByAction("Get", "Camps", new { moniker = model.Moniker });
                 if (string.IsNullOrWhiteSpace(location))
                 {
