@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoreCodeCamp.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class CampsController : ControllerBase
     {
         private readonly ICampRepository _campRepository;
@@ -57,6 +58,20 @@ namespace CoreCodeCamp.Controllers
                 var result = await _campRepository.GetAllCampsByEventDate(theDate, includeTalks);
                 if (!result.Any()) return NotFound();
                 return _mapper.Map<CampModel[]>(result);
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CampModel>> Post(CampModel model)
+        {
+            try
+            {
+                //Create new Camp
+                return Ok();
             }
             catch (Exception)
             {
