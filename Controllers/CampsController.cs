@@ -117,5 +117,25 @@ namespace CoreCodeCamp.Controllers
             }
             return BadRequest();
         }
+
+        [HttpDelete("{moniker}")]
+        public async Task<ActionResult> Delete(string moniker)
+        {
+            try
+            {
+                var oldCamp = await _campRepository.GetCampAsync(moniker);
+                if (oldCamp == null)
+                    return NotFound();
+
+                _campRepository.Delete(oldCamp);
+                if (await _campRepository.SaveChangesAsync())
+                    return Ok();
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+            return BadRequest("Failed to delete the camp");
+        }
     }
 }
