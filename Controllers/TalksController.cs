@@ -26,12 +26,27 @@ namespace CoreCodeCamp.Controllers
             _linkGenerator = linkGenerator;
         }
 
+        [HttpGet]
         public async Task<ActionResult<TalkModel[]>> Get(string moniker)
         {
             try
             {
                 var talks = await _campRepository.GetTalksByMonikerAsync(moniker);
                 return _mapper.Map<TalkModel[]>(talks);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to get Talk");
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<TalkModel>> Get(string moniker, int id)
+        {
+            try
+            {
+                var talk = await _campRepository.GetTalkByMonikerAsync(moniker, id);
+                return _mapper.Map<TalkModel>(talk);
             }
             catch (Exception)
             {
