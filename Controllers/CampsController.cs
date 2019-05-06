@@ -92,7 +92,7 @@ namespace CoreCodeCamp.Controllers
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
