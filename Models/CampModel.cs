@@ -24,6 +24,5 @@ namespace CoreCodeCamp.Models
         public string LocationPostalCode { get; set; }
         public string LocationCountry { get; set; }
 
-        public ICollection<TalkModel> Talks { get; set; }
     }
 }
